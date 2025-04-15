@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Game" ALTER COLUMN "releaseDate" DROP NOT NULL,
+ALTER COLUMN "rating" DROP NOT NULL,
+ALTER COLUMN "coverImage" DROP NOT NULL;
