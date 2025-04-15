@@ -103,6 +103,8 @@ describe('GamesService', () => {
       expect(mockPrismaService.game.findMany).toHaveBeenCalledWith({
         where: {},
         include: { platforms: { include: { platform: true } } },
+        skip: 0,
+        take: 10,
       });
     });
 
@@ -116,6 +118,8 @@ describe('GamesService', () => {
       expect(mockPrismaService.game.findMany).toHaveBeenCalledWith({
         where: { title: { equals: 'Filtered Game', mode: 'insensitive' } },
         include: { platforms: { include: { platform: true } } },
+        skip: 0,
+        take: 10,
       });
     });
 
@@ -135,6 +139,8 @@ describe('GamesService', () => {
           },
         },
         include: { platforms: { include: { platform: true } } },
+        skip: 0,
+        take: 10,
       });
     });
   });

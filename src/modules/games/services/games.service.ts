@@ -121,8 +121,10 @@ export class GamesService {
     }
   }
 
-  async getAllGames({ platform, title }: IFindAllGames = {}) {
+  async getAllGames({ platform, title, page }: IFindAllGames = {}) {
     const where: Prisma.GameWhereInput = {};
+    const limit = 10;
+    const skip = !!page ? (Number(page) - 1) * 10 : 0;
 
     if (title) {
       where.title = {
@@ -153,6 +155,8 @@ export class GamesService {
           },
         },
       },
+      take: limit,
+      skip,
     });
 
     return games;

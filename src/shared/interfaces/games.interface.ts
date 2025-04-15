@@ -23,4 +23,11 @@ export class IFindAllGames {
   @IsString()
   @IsOptional()
   platform?: string;
+
+  @ApiProperty({
+    description: 'Paginação',
+  })
+  @IsNumber()
+  @IsOptional()
+  page?: number;
 }
