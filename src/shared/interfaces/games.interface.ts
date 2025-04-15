@@ -2,19 +2,25 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class IFindUniqueGame {
-  @ApiProperty()
+  @ApiProperty({
+    description: ' Nome do jogo',
+  })
   @IsString()
   title: string;
 }
 
 export class IFindAllGames {
-  @ApiProperty()
+  @ApiProperty({
+    description: ' Nome do jogo',
+  })
   @IsString()
   @IsOptional()
   title?: string;
 
-  @ApiProperty()
-  @IsNumber()
+  @ApiProperty({
+    description: 'Nome da plataforma',
+  })
+  @IsString()
   @IsOptional()
-  platform?: number;
+  platform?: string;
 }
