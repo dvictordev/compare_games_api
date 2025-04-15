@@ -132,6 +132,13 @@ export class GamesService {
 
     const games = await this.prisma.game.findMany({
       where,
+      include: {
+        platforms: {
+          include: {
+            platform: true,
+          },
+        },
+      },
     });
 
     return games;
