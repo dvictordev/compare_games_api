@@ -89,7 +89,7 @@ $ npm run test:cov
 Certifique-se de configurar as seguintes variáveis no arquivo `.env`:
 
 ```env
-DATABASE_URL=postgresql://postgres:postgres@db:5432/games_db
+DATABASE_URL=postgresql://<USUARIO>:<SENHA>@db:<PORTA>/<BANCO_DE_DADOS>
 ```
 
 ## Prisma
