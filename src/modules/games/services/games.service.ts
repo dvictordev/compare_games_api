@@ -24,6 +24,7 @@ interface Games {
   rating: number;
   background_image: string;
 }
+
 @Injectable()
 export class GamesService {
   constructor(
@@ -40,6 +41,13 @@ export class GamesService {
             mode: 'insensitive',
           },
         },
+        include: {
+          platforms: {
+            include: {
+              platform: true,
+            },
+          },
+        },
       });
 
       if (game.length === 0) {
@@ -49,26 +57,45 @@ export class GamesService {
           throw new Error('Game not found');
         }
 
-        const formatedGamesToDatabase = apiGame.map((game) => {
-          return {
-            title: game.name,
-            description: game.slug,
-            platforms: game.platforms.map((platform) => platform.platform.id),
-            releaseDate: game.released,
-            rating: game.rating,
-            coverImage: game.background_image,
-          };
-        });
+        for (const game of apiGame) {
+          const platforms = game.platforms.map((p) => ({
+            where: { slug: p.platform.slug },
+            create: {
+              name: p.platform.name,
+              slug: p.platform.slug,
+            },
+          }));
 
-        await this.prisma.game.createMany({
-          data: formatedGamesToDatabase,
-        });
+          await this.prisma.game.create({
+            data: {
+              title: game.name,
+              description: game.slug,
+              releaseDate: game.released,
+              rating: game.rating,
+              coverImage: game.background_image,
+              platforms: {
+                create: platforms.map((platform) => ({
+                  platform: {
+                    connectOrCreate: platform,
+                  },
+                })),
+              },
+            },
+          });
+        }
 
         const games = await this.prisma.game.findMany({
           where: {
             title: {
               contains: title,
               mode: 'insensitive',
+            },
+          },
+          include: {
+            platforms: {
+              include: {
+                platform: true,
+              },
             },
           },
         });
@@ -92,9 +119,17 @@ export class GamesService {
 
     if (platform) {
       where.platforms = {
-        has: platform,
+        some: {
+          platform: {
+            name: {
+              contains: platform,
+              mode: 'insensitive',
+            },
+          },
+        },
       };
     }
+
     const games = await this.prisma.game.findMany({
       where,
     });
