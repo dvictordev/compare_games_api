@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { Cache } from 'cache-manager';
 import { Prisma } from 'generated/prisma';
 import {
   IFindAllGames,
@@ -30,10 +31,16 @@ export class GamesService {
   constructor(
     private prisma: PrismaService,
     private api: Api,
+    @Inject('CACHE_MANAGER') private cacheManager: Cache,
   ) {}
 
   async getGame({ title }: IFindUniqueGame) {
     try {
+      // Tenta recuperar o jogo do cache
+      const cachedGame = await this.cacheManager.get(
+        `game_${title.toLowerCase()}`,
+      );
+
       const game = await this.prisma.game.findMany({
         where: {
           title: {
@@ -84,6 +91,7 @@ export class GamesService {
           });
         }
 
+        // Busca novamente no banco de dados após criar os jogos
         const games = await this.prisma.game.findMany({
           where: {
             title: {
@@ -99,8 +107,12 @@ export class GamesService {
             },
           },
         });
+
+        await this.cacheManager.set(`game_${title.toLowerCase()}`, games);
         return games;
       }
+
+      await this.cacheManager.set(`game_${title.toLowerCase()}`, game); // TTL de 1 hora
       return game;
     } catch (error) {
       throw error;
