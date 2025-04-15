@@ -3,8 +3,9 @@ FROM node:20-alpine
 WORKDIR /api
 
 COPY package*.json ./
+
 RUN npm install
 
 COPY . .
 
-CMD [ "npm", "run", "start:dev" ]
+CMD [ "sh", "-c", "npx prisma migrate dev && npm run start:dev" ]
