@@ -16,13 +16,36 @@ datasource db {
 }
 
 model Game {
-  id          Int      @id @default(autoincrement())
-  title       String   @unique
+  id          Int    @id @default(autoincrement())
+  title       String @unique
   description String
-  platforms   Int[]
+
   releaseDate String?
   rating      Float?
   coverImage  String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  platforms   GamePlatform[]
+  platformsId Int?
+}
+
+model Platform {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  slug String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  platforms GamePlatform[]
+}
+
+model GamePlatform {
+  gameId     Int
+  platformId Int
+
+  game     Game     @relation(fields: [gameId], references: [id])
+  platform Platform @relation(fields: [platformId], references: [id])
+
+  @@id([gameId, platformId])
 }
