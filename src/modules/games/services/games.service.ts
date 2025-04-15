@@ -36,10 +36,13 @@ export class GamesService {
 
   async getGame({ title }: IFindUniqueGame) {
     try {
-      // Tenta recuperar o jogo do cache
       const cachedGame = await this.cacheManager.get(
         `game_${title.toLowerCase()}`,
       );
+
+      if (cachedGame) {
+        return cachedGame;
+      }
 
       const game = await this.prisma.game.findMany({
         where: {
@@ -91,7 +94,6 @@ export class GamesService {
           });
         }
 
-        // Busca novamente no banco de dados após criar os jogos
         const games = await this.prisma.game.findMany({
           where: {
             title: {
@@ -112,7 +114,7 @@ export class GamesService {
         return games;
       }
 
-      await this.cacheManager.set(`game_${title.toLowerCase()}`, game); // TTL de 1 hora
+      await this.cacheManager.set(`game_${title.toLowerCase()}`, game);
       return game;
     } catch (error) {
       throw error;
