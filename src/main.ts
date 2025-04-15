@@ -10,9 +10,12 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Games API')
-    .setDescription('API for searching games')
+    .setDescription('API developed for searching games in the RAWG library')
     .setVersion('1.0')
+    .addBearerAuth()
+
     .build();
+
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
 
