@@ -1,6 +1,9 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Query } from '@nestjs/common';
 import { GamesService } from '../services/games.service';
-import { IFindUniqueGame } from 'src/shared/interfaces/games.interface';
+import {
+  IFindAllGames,
+  IFindUniqueGame,
+} from 'src/shared/interfaces/games.interface';
 
 @Controller('games')
 export class GamesController {
@@ -11,5 +14,12 @@ export class GamesController {
     const game = await this.gamesService.getGame(title);
 
     return game;
+  }
+
+  @Get()
+  async getAllGames(@Body() data: IFindAllGames) {
+    const games = await this.gamesService.getAllGames(data);
+
+    return games;
   }
 }
