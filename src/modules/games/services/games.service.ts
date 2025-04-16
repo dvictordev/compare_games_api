@@ -53,7 +53,7 @@ export class GamesService {
         },
         include: {
           platforms: {
-            include: {
+            select: {
               platform: true,
             },
           },
@@ -103,7 +103,7 @@ export class GamesService {
           },
           include: {
             platforms: {
-              include: {
+              select: {
                 platform: true,
               },
             },
@@ -150,7 +150,7 @@ export class GamesService {
       where,
       include: {
         platforms: {
-          include: {
+          select: {
             platform: true,
           },
         },
