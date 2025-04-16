@@ -1,6 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { HashHelpers } from 'src/shared/helpers/hash.helper';
-import { IUserAuth, IUserRegister } from 'src/shared/interfaces/auth.interface';
+import {
+  AuthenticateUserDto,
+  RegisterUserDto,
+} from 'src/modules/auth/dto/auth.dto';
 import { JwtProviderService } from 'src/shared/services/jwt-provider.service';
 import { PrismaService } from 'src/shared/services/prisma.service';
 
@@ -12,7 +15,7 @@ export class AuthService {
     private readonly jwtProviderService: JwtProviderService,
   ) {}
 
-  async storeUser(data: IUserRegister) {
+  async storeUser(data: RegisterUserDto) {
     const user = await this.prisma.user.findUnique({
       where: {
         email: data.email,
@@ -43,7 +46,7 @@ export class AuthService {
     };
   }
 
-  async login(data: IUserAuth) {
+  async login(data: AuthenticateUserDto) {
     try {
       const user = await this.prisma.user.findUnique({
         where: {

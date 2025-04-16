@@ -97,7 +97,7 @@ describe('GamesService', () => {
       const games = [{ title: 'Game 1' }, { title: 'Game 2' }];
       mockPrismaService.game.findMany.mockResolvedValue(games);
 
-      const result = await gamesService.getAllGames();
+      const result = await gamesService.getAllGames({});
 
       expect(result).toEqual(games);
       expect(mockPrismaService.game.findMany).toHaveBeenCalledWith({

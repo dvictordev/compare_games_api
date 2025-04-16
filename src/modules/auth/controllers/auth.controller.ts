@@ -1,5 +1,8 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { IUserAuth, IUserRegister } from 'src/shared/interfaces/auth.interface';
+import {
+  AuthenticateUserDto,
+  RegisterUserDto,
+} from 'src/modules/auth/dto/auth.dto';
 import { AuthService } from '../services/auth.service';
 import { runInThisContext } from 'vm';
 import { Public } from 'src/shared/decorator/public.decorator';
@@ -23,7 +26,7 @@ export class AuthController {
     status: 400,
     description: 'User already exists',
   })
-  async register(@Body() data: IUserRegister) {
+  async register(@Body() data: RegisterUserDto) {
     const user = await this.authService.storeUser(data);
     return {
       message: 'User registered successfully',
@@ -58,7 +61,7 @@ export class AuthController {
     },
   })
   @HttpCode(HttpStatus.OK)
-  async login(@Body() data: IUserAuth) {
+  async login(@Body() data: AuthenticateUserDto) {
     const login = await this.authService.login(data);
 
     return login;

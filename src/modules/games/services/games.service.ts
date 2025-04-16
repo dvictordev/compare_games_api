@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { Prisma } from 'generated/prisma';
 import {
-  IFindAllGames,
-  IFindUniqueGame,
-} from 'src/shared/interfaces/games.interface';
+  FindManyGameDto,
+  FindUniqueGameDto,
+} from 'src/modules/games/dto/games.dto';
 import { Api } from 'src/shared/services/api.client';
 
 import { PrismaService } from 'src/shared/services/prisma.service';
@@ -34,7 +34,7 @@ export class GamesService {
     @Inject('CACHE_MANAGER') private cacheManager: Cache,
   ) {}
 
-  async getGame({ title }: IFindUniqueGame) {
+  async getGame({ title }: FindUniqueGameDto) {
     try {
       const cachedGame = await this.cacheManager.get(
         `game_${title.toLowerCase()}`,
@@ -121,7 +121,7 @@ export class GamesService {
     }
   }
 
-  async getAllGames({ platform, title, page }: IFindAllGames = {}) {
+  async getAllGames({ platform, title, page }: FindManyGameDto = {}) {
     const where: Prisma.GameWhereInput = {};
     const limit = 10;
     const skip = !!page ? (Number(page) - 1) * 10 : 0;

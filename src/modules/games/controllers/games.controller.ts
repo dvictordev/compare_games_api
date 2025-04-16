@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Query } from '@nestjs/common';
 import { GamesService } from '../services/games.service';
 import {
-  IFindAllGames,
-  IFindUniqueGame,
-} from 'src/shared/interfaces/games.interface';
+  FindManyGameDto,
+  FindUniqueGameDto,
+} from 'src/modules/games/dto/games.dto';
 import { ApiBody, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 
 @Controller('games')
@@ -29,7 +29,7 @@ export class GamesController {
     description: 'The title of the game to search for',
     required: true,
   })
-  async getGame(@Query() title: IFindUniqueGame) {
+  async getGame(@Query() title: FindUniqueGameDto) {
     const game = await this.gamesService.getGame(title);
 
     return game;
@@ -45,10 +45,10 @@ export class GamesController {
     description: 'The games have been successfully retrieved',
   })
   @ApiBody({
-    type: IFindAllGames,
+    type: FindManyGameDto,
     description: 'Filter options for retrieving games',
   })
-  async getAllGames(@Body() data: IFindAllGames) {
+  async getAllGames(@Body() data: FindManyGameDto) {
     const games = await this.gamesService.getAllGames(data);
 
     return games;
