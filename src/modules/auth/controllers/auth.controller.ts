@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { IUserAuth, IUserRegister } from 'src/shared/interfaces/auth.interface';
 import { AuthService } from '../services/auth.service';
 import { runInThisContext } from 'vm';
@@ -57,6 +57,7 @@ export class AuthController {
       },
     },
   })
+  @HttpCode(HttpStatus.OK)
   async login(@Body() data: IUserAuth) {
     const login = await this.authService.login(data);
 
