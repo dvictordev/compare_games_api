@@ -1,7 +1,7 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class IFindUniqueGame {
+export class FindUniqueGameDto {
   @ApiProperty({
     description: ' Nome do jogo',
   })
@@ -9,7 +9,7 @@ export class IFindUniqueGame {
   title: string;
 }
 
-export class IFindAllGames {
+export class FindManyGameDto {
   @ApiProperty({
     description: ' Nome do jogo',
   })

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { IFindUniqueGame } from '../interfaces/games.interface';
+import { FindUniqueGameDto } from '../../modules/games/dto/games.dto';
 
 @Injectable()
 export class Api {
@@ -13,7 +13,7 @@ export class Api {
     this.apiKey = this.configService.get<string>('RAWG_API_KEY') ?? '';
   }
 
-  async getGame({ title }: IFindUniqueGame) {
+  async getGame({ title }: FindUniqueGameDto) {
     const url = `${this.baseUrl}/games?key=${this.apiKey}&search=${title}&search_exact=true$search_precise=true`;
 
     const { data, statusText } = await axios.get(url);
