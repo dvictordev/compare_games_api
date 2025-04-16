@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { Cache } from 'cache-manager';
-import { Prisma } from 'generated/prisma';
+
 import {
   FindManyGameDto,
   FindUniqueGameDto,
