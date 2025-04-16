@@ -6,6 +6,16 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository with Docker and Prisma integration.
 
+## Features
+
+A API oferece as seguintes funcionalidades:
+
+- **Autenticação JWT**: Proteção de rotas com autenticação baseada em JSON Web Tokens.
+- **Registro de usuários**: Cadastro e login.
+- **Listagem de jogos**: Obtenha uma lista de jogos com informações.
+- **Busca de jogos**: Pesquisa de jogos por nome.
+- **Paginação e filtros**: Suporte para paginação e filtros nas listagens.
+
 ## Project setup
 
 ### Using Docker
@@ -21,6 +31,8 @@ Isso irá:
 
 - Criar um container para o banco de dados PostgreSQL.
 - Criar um container para a API NestJS.
+- Rodar as migrações, gerando as tabelas no banco de dados.
+- Rodar o projeto.
 
 3. Acesse a API em: `http://localhost:3001`.
 
@@ -39,6 +51,26 @@ $ npx prisma studio
 ```
 
 3. O arquivo de configuração do Prisma (`prisma/schema.prisma`) já está configurado para usar o banco de dados PostgreSQL no container.
+
+## Environment Variables
+
+Certifique-se de configurar as seguintes variáveis no arquivo `.env` antes de iniciar o projeto:
+
+### Variáveis obrigatórias
+
+```env
+# URL de conexão com o banco de dados PostgreSQL
+DATABASE_URL=postgresql://<USUARIO>:<SENHA>@db:<PORTA>/<BANCO_DE_DADOS>
+
+# URL da Api RAWG
+RAWG_API_URL=<RAWG_API_URL>
+
+#Chave de API RAWG
+RAWG_API_KEY=<RAWG_API_KEY>
+
+# Chave secreta para JWT (JSON Web Token)
+TOKEN_SECRET=<SUA_CHAVE_SECRETA>
+```
 
 ## Compile and run the project (sem Docker)
 
@@ -82,14 +114,6 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
-```
-
-## Environment Variables
-
-Certifique-se de configurar as seguintes variáveis no arquivo `.env`:
-
-```env
-DATABASE_URL=postgresql://<USUARIO>:<SENHA>@db:<PORTA>/<BANCO_DE_DADOS>
 ```
 
 ## Prisma
