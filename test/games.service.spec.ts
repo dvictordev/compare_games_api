@@ -48,7 +48,7 @@ describe('GamesService', () => {
       expect(mockCacheManager.get).toHaveBeenCalledWith('game_db game');
       expect(mockPrismaService.game.findMany).toHaveBeenCalledWith({
         where: { title: { contains: 'DB Game', mode: 'insensitive' } },
-        include: { platforms: { include: { platform: true } } },
+        include: { platforms: { select: { platform: true } } },
       });
       expect(mockCacheManager.set).toHaveBeenCalledWith('game_db game', dbGame);
     });
@@ -102,7 +102,7 @@ describe('GamesService', () => {
       expect(result).toEqual(games);
       expect(mockPrismaService.game.findMany).toHaveBeenCalledWith({
         where: {},
-        include: { platforms: { include: { platform: true } } },
+        include: { platforms: { select: { platform: true } } },
         skip: 0,
         take: 10,
       });
@@ -117,7 +117,7 @@ describe('GamesService', () => {
       expect(result).toEqual(games);
       expect(mockPrismaService.game.findMany).toHaveBeenCalledWith({
         where: { title: { equals: 'Filtered Game', mode: 'insensitive' } },
-        include: { platforms: { include: { platform: true } } },
+        include: { platforms: { select: { platform: true } } },
         skip: 0,
         take: 10,
       });
@@ -138,7 +138,7 @@ describe('GamesService', () => {
             },
           },
         },
-        include: { platforms: { include: { platform: true } } },
+        include: { platforms: { select: { platform: true } } },
         skip: 0,
         take: 10,
       });
